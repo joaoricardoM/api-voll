@@ -1,0 +1,11 @@
+node_modules
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+.env
+temp/
+db_data/
+database/
+mysql
