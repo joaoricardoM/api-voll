@@ -1,22 +1,15 @@
-import { StatusCodes as Status } from "http-status-codes";
+import { AppError, Status } from '../error/errorHandler.js'
 
-class AppError extends Error {
-  private readonly _message: string;
-  private readonly _statusCode: number;
-
-  constructor(message: string, statusCode?: number) {
-    super();
-    this._message = message;
-    this._statusCode = statusCode ?? Status.BAD_REQUEST;
+export default async (error, req, res, next) => {
+  if (error instanceof AppError) {
+    return res.status(error.getStatusCode()).json({
+      status: error.getStatusCode(),
+      message: error.getMessage()
+    })
   }
 
-  getMessage(): string {
-    return this._message;
-  }
-
-  getStatusCode(): number {
-    return this._statusCode;
-  }
+  return res.status(Status.INTERNAL_SERVER_ERROR).json({
+    status: Status.INTERNAL_SERVER_ERROR,
+    message: `Internal server error: ${error.message}`
+  })
 }
-
-export { AppError, Status };

@@ -1,6 +1,6 @@
 export enum Role {
-  guest = "GUEST",
-  paciente = "PACIENTE",
-  especialista = "ESPECIALISTA",
-  clinica = "CLINICA",
+  guest = 'GUEST',
+  paciente = 'PACIENTE',
+  especialista = 'ESPECIALISTA',
+  clinica = 'CLINICA'
 }

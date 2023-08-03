@@ -4,36 +4,36 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   ManyToOne,
-  Relation,
-} from "typeorm";
-import { Paciente } from "../pacientes/pacienteEntity.js";
-import { Especialista } from "../especialistas/EspecialistaEntity.js";
+  Relation
+} from 'typeorm'
+import { Paciente } from '../pacientes/pacienteEntity.js'
+import { Especialista } from '../especialistas/especialistaEntity.js'
 
 @Entity()
 export class Avaliacoes {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string
 
   @CreateDateColumn({
-    type: "text",
+    type: 'text'
   })
-  createdAt!: Date; // Gerar automaticamente e puxar no GET o horário no CRUD
+  createdAt!: Date // Gerar automaticamente e puxar no GET o horário no CRUD
 
   @ManyToOne(() => Especialista, (especialista) => especialista.avaliacoes)
-  especialista: Relation<Especialista>;
+  especialista: Relation<Especialista>
 
   @ManyToOne(() => Paciente, (paciente) => paciente.avaliacoes)
-  paciente: Relation<Paciente>;
+  paciente: Relation<Paciente>
 
   @Column()
-  nota: number;
+  nota: number
 
   @Column({ nullable: true })
-  descricao: string;
+  descricao: string
 
   @Column({ nullable: true })
-  especialistaId: string;
+  especialistaId: string
 
   @Column({ nullable: true })
-  pacienteId: number;
+  pacienteId: number
 }

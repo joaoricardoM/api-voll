@@ -1,17 +1,17 @@
-import { type Request, type Response } from "express";
-import { AppDataSource } from "../data-source.js";
-import { Avaliacoes } from "./avaliacoesEntity.js";
-import { Paciente } from "../pacientes/pacienteEntity.js";
-import { Especialista } from "../especialistas/EspecialistaEntity.js";
-import { AppError, Status } from "../error/ErrorHandler.js";
+import { type Request, type Response } from 'express'
+import { Avaliacoes } from './avaliacoesEntity.js'
+import { Paciente } from '../pacientes/pacienteEntity.js'
+import { AppError, Status } from '../error/errorHandler.js'
+import { AppDataSource } from '../data-souce.js'
+import { Especialista } from '../especialistas/especialistaEntity.js'
 
 export const listaAvaliacoes = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const allAvaliacoes = await AppDataSource.manager.find(Avaliacoes);
-  res.json(allAvaliacoes);
-};
+  const allAvaliacoes = await AppDataSource.manager.find(Avaliacoes)
+  res.json(allAvaliacoes)
+}
 
 // Post
 
@@ -21,32 +21,32 @@ export const criaAvaliacao = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { idEspecialista, idPaciente, descricao, nota } = req.body;
+  const { idEspecialista, idPaciente, descricao, nota } = req.body
   const especialista = await AppDataSource.manager.findOneBy(Especialista, {
-    id: idEspecialista,
-  });
+    id: idEspecialista
+  })
   const paciente = await AppDataSource.manager.findOneBy(Paciente, {
-    id: idPaciente,
-  });
+    id: idPaciente
+  })
 
-  const avaliacao = new Avaliacoes();
+  const avaliacao = new Avaliacoes()
 
   if (especialista == null || paciente == null) {
     throw new AppError(
-      "Especialista ou Paciente não encontrado",
+      'Especialista ou Paciente não encontrado',
       Status.NOT_FOUND
-    );
+    )
   }
 
-  avaliacao.especialista = especialista;
-  avaliacao.paciente = paciente;
-  avaliacao.nota = nota;
-  avaliacao.descricao = descricao;
+  avaliacao.especialista = especialista
+  avaliacao.paciente = paciente
+  avaliacao.nota = nota
+  avaliacao.descricao = descricao
 
-  await AppDataSource.manager.save(avaliacao);
+  await AppDataSource.manager.save(avaliacao)
   res.json({
     id: avaliacao.id,
     nota: avaliacao.nota,
-    descricao: avaliacao.descricao,
-  });
-};
+    descricao: avaliacao.descricao
+  })
+}
